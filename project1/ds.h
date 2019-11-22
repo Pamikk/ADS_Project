@@ -34,16 +34,22 @@ struct link_list{
 class br_tree;
 class min_heap{
     heap_node list[2000];//start from 0
+    ofstream *file;
     public:        
         int num=0;//current buildings in heap.
+        int flag=0;//1 if all command has been run,otherwise 0
+        int act_num=0;//current buildings in heap including not heapified part
         int building =0;//time for which has woked on current building
+        void set_output(ofstream*);
         void insert(heap_node,int);// return heap_id
         void heapify(int id);// keep the properties of min-heap
-        int pop(br_tree &);//remove the node with min val,pop the id
+        int pop(br_tree &,int);//remove the node with min val,pop the id
         int update_root();/*return 1 or 0, -1 means building has finished.
         1:still need to work on this building;0:have worked on the building for 5 days;
         -1: the building is completed*/
         void update_pointer(int ,br_node*);
+        void write(int, int);//print output
+        heap_node get(int);//get corresponding node
 };
 class br_tree{
     br_node * root=0;

@@ -1,6 +1,6 @@
 main: proj1.cpp ds.o
 
-	g++ -o main proj1.cpp ds.o
+	g++ -o risingCity proj1.cpp ds.o
 
 ds.o:ds.cpp
 

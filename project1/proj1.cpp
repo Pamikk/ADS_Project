@@ -91,6 +91,7 @@ int main(int argc,char *argv[]){
     out_file.open("output_file.txt");
     min_heap heap;
     br_tree tree;
+    heap.set_output(&out_file);
     tree.set_output(&out_file);
     tree.set_heap(&heap);
     //set corresponding heap and out_file for the brtree
@@ -107,48 +108,78 @@ int main(int argc,char *argv[]){
                     if (flag==0){
                         //tommorrow will choose a new building
                         heap.heapify(0);
-                    }
-                    if(flag==-1){
-                        //current building complete
-                        int id = heap.pop(tree);                        
-                        if (heap.num ==0){
-                            comp = global_timer;
-                            out_file<<'('<<id<<','<<global_timer<<')'<<endl;
-                        }else
-                        {
-                            out_file<<'('<<id<<','<<global_timer<<')'<<endl;
+                        if (heap.act_num>heap.num){
+                            //there are some inserted nodes not heapified
+                            for (int i=heap.num;i<heap.act_num;i++){
+                                heap.insert(heap.get(i),i);
+                            }
+                            if (heap.num!=heap.act_num){
+                                cout<<"????"<<endl;
+                            }
                         }
-                        
+                    }
+                }
+                if(flag==-1){
+                    //current building complete
+                    int id = heap.pop(tree,global_timer);
+                    if (heap.act_num>heap.num){
+                        //there are some inserted nodes not heapified
+                        for (int i=heap.num+1;i<heap.act_num+1;i++){
+                            heap.insert(heap.get(i),i-1);
+                        }
+                        if (heap.num!=heap.act_num-1){
+                            cout<<"????"<<endl;
+                        }
+                        heap.act_num = heap.num;                            
+                    }
+                    if (heap.num ==0){
+                        comp = global_timer;
                     }
                 }
                 global_timer+=1;
             }
            
             if ((heap.num>0)){                
-                //run the command
-                                       
-                flag = heap.update_root();                
+                //run the command                                                      
+                flag = heap.update_root();                              
                 if (cur.func_flag == 'P'){
                     //cout<<"print start"<<global_timer<<endl;
                     print(cur,tree);
                 }
                 if (flag==0){
                         //tommorrow will choose a new building
-                        heap.heapify(0);
-                    }
-                if(flag==-1){
-                        //current building complete
-                        int id = heap.pop(tree);
-                        out_file<<'('<<id<<','<<global_timer<<')'<<endl;
-                        if (heap.num ==0){
-                            comp = global_timer;
+                    heap.heapify(0);
+                    if (heap.act_num>heap.num){
+                        //there are some inserted nodes not heapified
+                        for (int i=heap.num;i<heap.act_num;i++){
+                            heap.insert(heap.get(i),i);
                         }
+                        if (heap.num!=heap.act_num){
+                            cout<<"????"<<endl;
+                        }
+                    }                    
+                }
+                if(flag==-1){
+                    //current building complete
+                    int id = heap.pop(tree,global_timer);
+                    if (heap.act_num>heap.num){
+                        //there are some inserted nodes not heapified
+                        for (int i=heap.num+1;i<heap.act_num+1;i++){
+                            heap.insert(heap.get(i),i-1);
+                        }
+                        if (heap.num!=heap.act_num-1){
+                            cout<<"????"<<endl;
+                        }
+                        heap.act_num = heap.num;                            
+                    }
+                    if (heap.num ==0){
+                        comp = global_timer;
+                    }
                 }
                 if (cur.func_flag == 'I'){
                     //cout<<"insert start"<<global_timer<<endl;
                     insert(cur,heap,tree);
-                } 
-                
+                }                             
             }
             else{
                 if (cur.func_flag == 'I'){
@@ -163,7 +194,7 @@ int main(int argc,char *argv[]){
             global_timer+=1;
         }
     }
-    
+    heap.flag=1;
     while (heap.num>0){
         //not complete
         ////cout<<global_timer<<endl;
@@ -171,18 +202,32 @@ int main(int argc,char *argv[]){
         if (flag==0){
             //tommorrow will choose a new building
             heap.heapify(0);
+            if (heap.act_num>heap.num){
+                //there are some inserted nodes not heapified
+                for (int i=heap.num;i<heap.act_num;i++){
+                    heap.insert(heap.get(i),i);
+                }
+                if (heap.num!=heap.act_num){
+                    cout<<"????"<<endl;
+                }
+            }
         }
-        if (flag==-1){
+        if(flag==-1){
             //current building complete
-            int id = heap.pop(tree);
+            int id = heap.pop(tree,global_timer);
+            if (heap.act_num>heap.num){
+                //there are some inserted nodes not heapified
+                for (int i=heap.num+1;i<heap.act_num+1;i++){
+                    heap.insert(heap.get(i),i-1);
+                }
+                if (heap.num!=heap.act_num-1){
+                    cout<<"????"<<endl;
+                }
+                heap.act_num = heap.num;                            
+            }
             if (heap.num ==0){
                 comp = global_timer;
-                out_file<<'('<<id<<','<<global_timer<<')';
-            }else
-            {
-                out_file<<'('<<id<<','<<global_timer<<')'<<endl;
             }
-            
         }
         global_timer+=1;
     }

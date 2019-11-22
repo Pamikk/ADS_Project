@@ -16,13 +16,13 @@ bool cmp_heap(heap_node a,heap_node b){
     else return false;
 }
 void br_tree::change_parent(br_node*py,br_node*v){
+    //change parent of v to parent of py
     br_node *gp = py->p;
     if (gp == 0){
         //py is root
         root = v;
         v->p = 0;
     }else{
-        cout<<"change_parent:"<<gp->numid<<','<<v->numid<<endl;
         if (py==gp->l){
             gp->l = v;
             v->p = gp;
@@ -30,16 +30,13 @@ void br_tree::change_parent(br_node*py,br_node*v){
             if (py==gp->r){
                 gp->r = v;
                 v->p = gp;
-            }else{
-                cout<<"gp:"<<gp->numid<<endl;
-                cout<<"gp is not p of py,wtf?"<<endl;
             }
         }
     }
 }
 void br_tree::del_Xb0_case(br_node*py,br_node*v,br_node*y){
     //Lb0 or Rb0
-    cout<<"Xb0"<<endl;
+    //cout<<"Xb0"<<endl;
     if (py->col == 0){
         //py is black
         v->col = 1;
@@ -55,14 +52,11 @@ void br_tree::del_Rb1_case1(br_node*py,br_node*v,br_node*y){
     br_node* a = v->l;
     br_node* b = v->r;
     change_parent(py,v);
-    cout<<v->numid<<endl;
     v->r = py;
     py->p = v;
     py->l =b;
     if (b!=0){b->p = py;}
     //rotation
-    cout<<"after rotation"<<endl;
-    if (a==0){cout<<"why Rb1"<<endl;}
     a->col = 0;
     v->col = py->col;
     py->col = 0;
@@ -117,7 +111,7 @@ void br_tree::del_Lb1_case2(br_node*py,br_node*v,br_node*y){
     py->r = c;
     if (c!=0){c->p = py;}
     v->l = b;
-    if (b!=0){b->p = v;cout<<v->numid<<endl;}
+    if (b!=0){b->p = v;}
     //rotation
     w->col = py->col;
     py->col = 0;
@@ -136,7 +130,7 @@ void br_tree::deal_Lbn(br_node*py,br_node*v,br_node*y){
             }
             else{
                 cout<<"left null right not red?"<<endl;
-                del_Xb0_case(py,v,y);
+                //raise error
             }
         }
     }else{
@@ -371,7 +365,6 @@ void br_tree::swap_node(br_node*a,br_node*b){
     b->heapid = tmp.heapid;
     (*heap).update_pointer(a->heapid,a);
     (*heap).update_pointer(b->heapid,b);
-    if(a->numid == b->numid){cout<<"error"<<endl;}
 }
 void br_tree::write(){
     if (next==-1){
@@ -393,7 +386,7 @@ void br_tree::raise_error(command cur){
 }
 
 br_node* br_tree::lookup(br_node* node,int id){
-    cout<<"lookup"<<node->numid<<','<<node->col<<endl;
+    //look up node or its suitable parent
     if (id == node->numid){
         //founded
         return node;
@@ -432,12 +425,6 @@ bool br_tree::insert(br_node* node){
         br_node *par = lookup(root,node->numid);//find parent
         if (par->numid == node->numid){
             //numid existed
-            if (par->p!=0){
-                cout<<"repeated par:"<<par->p->numid<<endl;
-            }
-            else{
-                cout<<"root:"<<root->numid<<' '<<par->numid<<endl;
-            }
             return false;//insert failure
         }else if (par->numid > node->numid){
             //insert left
@@ -450,20 +437,11 @@ bool br_tree::insert(br_node* node){
             //adjust to keep propety
         }
     }
-    if (node->p!=0){
-        cout<<node->numid<<' '<<node->p->numid<<' '<<node->col<<node->p->col<<endl;
-        if (node->p->p!=0){
-            cout<<"gp"<<node->p->p->numid<<endl;
-        }
-    }
-    else{
-        cout<<"root:"<<node->numid<<' '<<node->col<<endl;
-    }
     return true;
 }
 
 void br_tree::check_bottom_up(br_node* node){
-    cout<<node->numid<<endl;
+    //check if there are two consequent red nodes bottom up
     br_node*par = node->p;
     if (par->col == 0){
         //parent is black
@@ -627,27 +605,16 @@ void br_tree::check_bottom_up(br_node* node){
 }
 
 void br_tree::del(br_node *node){
-    cout<<node->numid<<endl;
     br_node* par = node->p;    
     if ((node->r!=nullptr)and(node->l!=nullptr)){
-        cout<<"deg2:"<<node->numid<<' '<<node->r->numid<<' '<<node->l->numid<<endl;
         //a node with degree 2
         br_node * rep = lookup(node->r,node->numid);//replaced with leftmost node in right subtree
-        cout<<"rep:"<<rep->numid<<endl;
-        if (rep->r!=0){
-            cout<<rep->r->numid<<endl;
-        }
-        //leftmost numid >= node->numid+1
-        cout<<"deg2:"<<rep<<' '<<node->p<<' '<<node->l->numid<<endl;
-        if (rep->p->l!=0){cout<<"sibling:"<<rep->p->l->numid<<endl;}
-        if (rep->p->r!=0){cout<<"sibling1:"<<rep->p->r->numid<<endl;}   
         swap_node(rep,node);
-        //copying from replaced node
-        cout<<"deg2:"<<rep->p<<' '<<node<<' '<<node->l->numid<<endl;        
+        //copying from replaced node   
         del(rep);
         //delete replaced node
     }else{
-        cout<<"degree<2:"<<node->numid<<' '<<node->col<<','<<par<<endl;
+        //degree < 2
         br_node * child;
         if (node->r == nullptr){
             child = node->l;
@@ -671,49 +638,38 @@ void br_tree::del(br_node *node){
                     par->r = child; 
                 }
                 if (child!=nullptr){
-                    child->p = par; 
-                    cout<<"repchild:"<<child->numid<<endl;               
-                }
-                cout<<par->numid<<endl;             
+                    child->p = par;               
+                }           
             }else{
                 //tbd is black
                 if (child!=nullptr){
-                    cout<<"repchild:"<<child->numid<<','<<par->numid<<','<<par<<endl;
                     if (child->col==0){
-                        cout<<"???"<<child->numid<<endl;
-                        //deal_deficient(node);
+                        cout<<child->numid<<endl;
+                        //raise error that one is black but the other is null
                     }
                     if (node==par->l){
                         //node on the left
                         par->l = child;  
                     }else{
                         par->r = child;
-                        cout<<"rightrep:"<<child<<','<<par->r<<endl;
                     }
                     child->p = par;
-                    cout<<child->p<<endl;
                     child->col = 0;                    
                 }else{
                     deal_deficient(node);
                     if (node->p->l==node){
-                        cout<<"left:"<<node->p->l->numid<<endl;
                         node->p->l = nullptr;
                     }else{
-                        cout<<"right:"<<node->p->r->numid<<endl;
                         node->p->r = nullptr;
                     }
-                    cout<<"finish"<<endl;
                 }
             }
-            cout<<"node:"<<node->numid<<"par:"<<node->p->numid<<endl;
             delete(node);
         }
     }
-    cout<<"finish delete"<<endl;
 }
 
 void br_tree::deal_deficient(br_node *node){
-    cout<<"deficient:"<<node->numid<<','<<root->numid<<','<<node->p<<endl;
     if (node->numid == root->numid){
         cout<<"deficient tree"<<endl;
         return;
@@ -723,9 +679,6 @@ void br_tree::deal_deficient(br_node *node){
         if (node == par->r){            
             //node on the right
             sibling = par->l;
-            cout<<sibling<<endl;
-            if (sibling ==0){cout<<"one black the other null?"<<endl;}
-            cout<<"deficientR:"<<node->numid<<' '<<sibling->numid<<' '<<par->numid<<endl;
             if (sibling->col == 0){
                 //Rbv 
                 deal_Rbn(par,sibling,node);
@@ -735,8 +688,6 @@ void br_tree::deal_deficient(br_node *node){
             }
         }else{
             sibling = par->r;
-            if (sibling ==0){cout<<"one black the other null?"<<endl;}
-            cout<<"deficientL:"<<node->numid<<' '<<sibling->numid<<' '<<par->numid<<endl;
             if (sibling->col == 0){
                 //Lbv 
                 deal_Lbn(par,sibling,node);
@@ -746,12 +697,10 @@ void br_tree::deal_deficient(br_node *node){
             }
         }
     }
-    cout<<"finish dealing"<<endl;
 }
 bool br_tree::print(int lb,int ub){
     if (root==0){return true;}
     int val = root->numid;
-    cout<<"print:"<<val<<','<<root->col<<endl;
     if (lb<=val){
         if (ub>=val){
             print_at(lb,val,root->l);
@@ -770,7 +719,6 @@ bool br_tree::print(int lb,int ub){
 bool br_tree::print_at(int lb,int ub,br_node*node){
     if (node==0){return true;}    
     int val = node->numid;
-    cout<<"print:"<<val<<','<<node->col<<endl;
     if (lb<=val){
         if (ub>=val){
             print_at(lb,val,node->l);
@@ -793,11 +741,23 @@ void br_tree::queue(br_node *node){
 
 
 //min-heap functions
+heap_node min_heap::get(int id){
+    return list[id];
+}
 void min_heap::insert(heap_node node,int i){
     if ((i==0)and(num==0)){
         list[0] = node;
         list[0].pointer->heapid = 0;
         num+=1;
+        return;
+    }
+    if (act_num<num){act_num = num;}//keep actual number increasing with num
+    if ((building>0)){
+        //there is a builidng under consturction
+        //insert to heap but not heapify
+        if (i!=num)cout<<"wtf"<<endl;
+        list[act_num] = node;
+        act_num+=1;
         return;
     }
     int p = floor((i+1)/2)-1;//parent node
@@ -834,12 +794,13 @@ void min_heap::insert(heap_node node,int i){
     return;
 }
 
-int min_heap::pop(br_tree & tree){
+int min_heap::pop(br_tree & tree,int time){
     int id = list[0].numid;
     br_node * p = list[0].pointer;
-    cout<<"start del from brtree"<<p->numid<<' '<<p->heapid<<' '<<id<<' '<<num<<endl;
-    tree.del(p);   
     num-=1;
+    act_num-=1;
+    write(id,time);    
+    tree.del(p);   
     list[0] = list[num];//move the last node to the root
     if (num==0){
         return id;
@@ -912,22 +873,31 @@ int min_heap::update_root(){
     if (building==5){
         building=0;
         flag = 0;
-    }
+    }//finish current construction
     if (list[0].executed_time == list[0].total_time){
         building = 0;
         flag= -1;
+        //builidng is finished
     }else{
         if  (list[0].executed_time > list[0].total_time){
             building = 0;
             cout<<"why not pop earlier..."<<endl;
-            cout<<list[0].numid;
             flag=-1;
+            //builidng should be finished erarlier
         }
     }
-    //cout<<list[0].numid<<' '<<list[0].executed_time<<endl;
     return flag;
 }
 
 void min_heap::update_pointer(int id,br_node*p){
     list[id].pointer = p;
+}
+void min_heap::set_output(ofstream *f){
+    file = f;
+}
+void min_heap::write(int id,int time){
+    if ((num==0)and(flag==1)){
+        *file<<'('<<id<<','<<time<<')';
+    }else *file<<'('<<id<<','<<time<<')'<<endl;
+
 }
