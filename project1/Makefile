@@ -10,4 +10,4 @@ ds.o:ds.cpp
 
 clean:
 
-	rm -f main *.o
+	rm -f risingCity *.o

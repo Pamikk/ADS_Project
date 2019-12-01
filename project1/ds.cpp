@@ -48,7 +48,7 @@ void br_tree::del_Xb0_case(br_node*py,br_node*v,br_node*y){
     }   
 }
 void br_tree::del_Rb1_case1(br_node*py,br_node*v,br_node*y){
-    cout<<"Rb1_case1"<<endl;
+    //cout<<"Rb1_case1"<<endl;
     br_node* a = v->l;
     br_node* b = v->r;
     change_parent(py,v);
@@ -63,7 +63,7 @@ void br_tree::del_Rb1_case1(br_node*py,br_node*v,br_node*y){
     //coloring
 }
 void br_tree::del_Lb1_case1(br_node*py,br_node*v,br_node*y){
-    cout<<"Lb1_case1"<<endl;
+    //cout<<"Lb1_case1"<<endl;
     br_node* a = v->r;
     br_node* b = v->l;
     change_parent(py,v);
@@ -78,7 +78,7 @@ void br_tree::del_Lb1_case1(br_node*py,br_node*v,br_node*y){
     //coloring
 }
 void br_tree::del_Rb1_case2(br_node*py,br_node*v,br_node*y){
-    cout<<"Rb1_case2 or Rb2"<<endl;
+    //cout<<"Rb1_case2 or Rb2"<<endl;
     br_node* w = v->r;
     br_node* a = v->l;
     br_node* b = w->l;//as w is red, not empty
@@ -98,7 +98,7 @@ void br_tree::del_Rb1_case2(br_node*py,br_node*v,br_node*y){
 }
 
 void br_tree::del_Lb1_case2(br_node*py,br_node*v,br_node*y){
-    cout<<"Lb1_case2 or Lb2"<<endl;
+    //cout<<"Lb1_case2 or Lb2"<<endl;
     br_node* w = v->l;
     br_node* a = v->r;
     br_node* b = w->r;//as w is red, not empty
@@ -118,7 +118,7 @@ void br_tree::del_Lb1_case2(br_node*py,br_node*v,br_node*y){
 }
 
 void br_tree::deal_Lbn(br_node*py,br_node*v,br_node*y){
-    cout<<"deal Lbn"<<endl;
+    //cout<<"deal Lbn"<<endl;
     if (v->l==nullptr){
         if (v->r==nullptr){
             //no child Lb0
@@ -151,7 +151,7 @@ void br_tree::deal_Lbn(br_node*py,br_node*v,br_node*y){
     }
 }
 void br_tree::deal_Rbn(br_node*py,br_node*v,br_node*y){
-    cout<<"deal Rbn"<<endl;
+    //cout<<"deal Rbn"<<endl;
     if (v->r==nullptr){
         if (v->l==nullptr){
             //no child Lb0
@@ -184,7 +184,7 @@ void br_tree::deal_Rbn(br_node*py,br_node*v,br_node*y){
     }
 }
 void br_tree::del_Rr0_case(br_node *py,br_node*v,br_node*y){
-    cout<<"Rr0"<<endl;
+    //cout<<"Rr0"<<endl;
     br_node * a = v->l;
     br_node * b = v->r;
     change_parent(py,v);
@@ -197,7 +197,7 @@ void br_tree::del_Rr0_case(br_node *py,br_node*v,br_node*y){
     b->col = 1;
 }
 void br_tree::del_Lr0_case(br_node *py,br_node*v,br_node*y){
-    cout<<"Lr0"<<endl;
+    //cout<<"Lr0"<<endl;
     br_node * a = v->r;
     br_node * b = v->l;
     change_parent(py,v);
@@ -210,7 +210,7 @@ void br_tree::del_Lr0_case(br_node *py,br_node*v,br_node*y){
     b->col = 1;
 }
 void br_tree::del_Rr1_case1(br_node*py,br_node*v,br_node*y,br_node*w){
-    cout<<"Rr1 case1"<<endl;
+    //cout<<"Rr1 case1"<<endl;
     br_node * b = w->l;
     br_node * c = w->r;
     change_parent(py,w);
@@ -226,7 +226,7 @@ void br_tree::del_Rr1_case1(br_node*py,br_node*v,br_node*y,br_node*w){
     b->col =0;
 }
 void br_tree::del_Lr1_case1(br_node*py,br_node*v,br_node*y,br_node*w){
-    cout<<"Lr1 case1"<<endl;
+    //cout<<"Lr1 case1"<<endl;
     br_node * b = w->r;
     br_node * c = w->l;
     change_parent(py,w);
@@ -242,7 +242,7 @@ void br_tree::del_Lr1_case1(br_node*py,br_node*v,br_node*y,br_node*w){
     b->col =0;
 }
 void br_tree::del_Rr1_case2(br_node*py,br_node*v,br_node*y,br_node*w){
-    cout<<"Rr1 case2 or Rr2"<<endl;
+    //cout<<"Rr1 case2 or Rr2"<<endl;
     br_node * x = w->r;
     br_node * c = x->l;
     br_node * d = x->r;
@@ -259,7 +259,7 @@ void br_tree::del_Rr1_case2(br_node*py,br_node*v,br_node*y,br_node*w){
     x->col =0;
 }
 void br_tree::del_Lr1_case2(br_node*py,br_node*v,br_node*y,br_node*w){
-    cout<<"Lr1 case2 or Lr2"<<endl;
+    //cout<<"Lr1 case2 or Lr2"<<endl;
     br_node * x = w->l;
     br_node * c = x->r;
     br_node * d = x->l;
@@ -277,7 +277,7 @@ void br_tree::del_Lr1_case2(br_node*py,br_node*v,br_node*y,br_node*w){
 }
 void br_tree::deal_Rrn(br_node *py,br_node*v,br_node*y){
     br_node* w = v->r;
-    cout<<"deal Rrn"<<endl;
+    //cout<<"deal Rrn"<<endl;
     if (w==0){cout<<"not deficient?"<<endl;}
     if (w->r==nullptr){
         if (w->l==nullptr){
@@ -312,7 +312,7 @@ void br_tree::deal_Rrn(br_node *py,br_node*v,br_node*y){
 }
 void br_tree::deal_Lrn(br_node *py,br_node*v,br_node*y){
     br_node* w = v->l;
-    cout<<"deal Rrn"<<endl;
+    //cout<<"deal Rrn"<<endl;
     if (w==0){cout<<"not deficient?"<<endl;}
     if (w->l==nullptr){
         if (w->r==nullptr){
@@ -412,9 +412,6 @@ br_node* br_tree::lookup(br_node* node,int id){
     }
 }
 
-void br_tree::get_root(){
-    cout<<root->numid<<endl;
-}
 bool br_tree::insert(br_node* node){
     if (root == nullptr){
         //tree is empty
@@ -454,7 +451,7 @@ void br_tree::check_bottom_up(br_node* node){
         if (gp->r!=nullptr){
             if (gp->r->col == 1){
                 //XYr,color fliping
-                cout<<"XYr,L"<<endl;
+                //cout<<"XYr,L"<<endl;
                 par->col = 0;
                 gp->col = 1;
                 gp->r->col = 0;
@@ -471,7 +468,7 @@ void br_tree::check_bottom_up(br_node* node){
         }
         if (node->numid<par->numid){
             //LLb
-            cout<<"LLb"<<endl;
+            //cout<<"LLb"<<endl;
             if (gp->numid == root->numid){
                 //gp is root
                 root = par;                   
@@ -496,7 +493,7 @@ void br_tree::check_bottom_up(br_node* node){
             //coloring
         }else{
             //LRb
-            cout<<"LRb"<<endl;
+            //cout<<"LRb"<<endl;
             if (gp->numid == root->numid){
                 //gp is root
                 root = node;                   
@@ -528,7 +525,7 @@ void br_tree::check_bottom_up(br_node* node){
         //parent on the right
         if (gp->l!=0){
             if (gp->l->col == 1){
-                cout<<"XYr,R"<<endl;
+                //cout<<"XYr,R"<<endl;
                 //XYr,color fliping
                 par->col = 0;
                 gp->col = 1;
@@ -546,7 +543,7 @@ void br_tree::check_bottom_up(br_node* node){
         }
         if (node->numid>par->numid){
             //RRb
-            cout<<"RRb"<<endl;
+            //cout<<"RRb"<<endl;
             if (gp->numid == root->numid){
                 //gp is root
                 root = par;                   
@@ -571,7 +568,7 @@ void br_tree::check_bottom_up(br_node* node){
             //coloring
         }else{
             //RLb
-            cout<<"RLb"<<endl;
+            //cout<<"RLb"<<endl;
             if (gp->numid == root->numid){
                 //gp is root
                 root = node;                   
@@ -671,7 +668,6 @@ void br_tree::del(br_node *node){
 
 void br_tree::deal_deficient(br_node *node){
     if (node->numid == root->numid){
-        cout<<"deficient tree"<<endl;
         return;
     }else{
         br_node * par = node->p;
@@ -722,8 +718,11 @@ bool br_tree::print_at(int lb,int ub,br_node*node){
     if (lb<=val){
         if (ub>=val){
             print_at(lb,val,node->l);
+            //print left
             queue(node);
+            //add to print queue
             print_at(val,ub,node->r);
+            //print right
             return false;
         }else
         {
@@ -744,7 +743,7 @@ void br_tree::queue(br_node *node){
 heap_node min_heap::get(int id){
     return list[id];
 }
-void min_heap::insert(heap_node node,int i){
+void min_heap::insert(heap_node node,int i){   
     if ((i==0)and(num==0)){
         list[0] = node;
         list[0].pointer->heapid = 0;
@@ -752,10 +751,9 @@ void min_heap::insert(heap_node node,int i){
         return;
     }
     if (act_num<num){act_num = num;}//keep actual number increasing with num
-    if ((building>0)){
+    if (building>0){
         //there is a builidng under consturction
         //insert to heap but not heapify
-        if (i!=num)cout<<"wtf"<<endl;
         list[act_num] = node;
         act_num+=1;
         return;
@@ -800,7 +798,7 @@ int min_heap::pop(br_tree & tree,int time){
     num-=1;
     act_num-=1;
     write(id,time);    
-    tree.del(p);   
+    tree.del(p); 
     list[0] = list[num];//move the last node to the root
     if (num==0){
         return id;

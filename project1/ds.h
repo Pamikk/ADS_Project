@@ -27,18 +27,14 @@ struct command{
     int param2;//rewrite Print(param1) as Print(param1,param2),param1 = param2
     char func_flag;// I for insert and P for Print
 };
-struct link_list{
-    br_node* val;
-    link_list *next;
-};
 class br_tree;
 class min_heap{
     heap_node list[2000];//start from 0
     ofstream *file;
     public:        
-        int num=0;//current buildings in heap.
-        int flag=0;//1 if all command has been run,otherwise 0
-        int act_num=0;//current buildings in heap including not heapified part
+        int num= 0;//current buildings in heap.
+        int flag= 0;//1 if all command has been run,otherwise 0
+        int act_num= 0;//current buildings in heap including not heapified part
         int building =0;//time for which has woked on current building
         void set_output(ofstream*);
         void insert(heap_node,int);// return heap_id
@@ -63,7 +59,7 @@ class br_tree{
         void swap_node(br_node*,br_node*);//swap heapid and info triplet of two nodes;
         br_node* lookup(br_node* ,int);
         bool insert(br_node*);// if success return ture otherwise false;
-        void del(br_node*);//delete building from ds according to the id
+        void del(br_node*);//delete building from ds
         bool print(int,int); //lb<=ub print node id s.t. lb<=id<=ub,true for has node in the range,otherwise false
         bool print_at(int,int,br_node*);//start at node,true for no node in the range
         void queue(br_node*);
@@ -71,7 +67,6 @@ class br_tree{
         void raise_error(command );//raise repeat num id error
         void check_bottom_up(br_node*);//check if there are two consequent red nodes
         void deal_deficient(br_node*);//deal deficient
-        void get_root();
         void change_parent(br_node*py,br_node*v);//change v's parent to py's parent
         //cases of dealing deficiency
         void deal_Lrn(br_node *py,br_node*v,br_node*y);
